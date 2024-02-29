@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas Image Editor</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Add jQuery UI -->
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <style>
+        #canvas-container {
+          position: relative;
+        }
+        #canvas, #template {
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+        .icon {
+          cursor: pointer;
+        }
+      </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Left Sidebar -->
+        <div class="col-md-3">
+          <h3>Icons</h3>
+          <div id="icons-sidebar">
+            <!-- Image Icons -->
+            <img
+              class="icon draggable"
+              src="assets/icons/birthday/birthday-cake.png"
+              alt="Icon 1"
+            />
+            <img
+              class="icon draggable"
+              src="assets/icons/birthday/birthday.png"
+              alt="Icon 2"
+            />
+            <img
+              class="icon draggable"
+              src="assets/icons/birthday/cupcake.png"
+              alt="Icon 3"
+            />
+            <!-- Add more icons as needed -->
+          </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="col-md-9">
+          <h3>Canvas</h3>
+          <h3>Canvas</h3>
+          <h3>Canvas</h3>
+          <h3>Canvas</h3>
+          <h3>Canvas</h3>
+          <h3>Canvas</h3>
+          <h3>Canvas</h3>
+          <div id="canvas-container">
+            <canvas id="canvas"></canvas>
+            <img
+              id="template"
+              src="assets/templates/template2.jpg"
+              alt="Template"
+            />
+            <canvas id="canvas"></canvas>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+          // Set canvas dimensions
+          var canvas = document.getElementById('canvas');
+          var ctx = canvas.getContext('2d');
+          canvas.width = $('#template').width();
+          canvas.height = $('#template').height();
+          
+          // Draw template image onto canvas
+          var template = document.getElementById('template');
+          ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
+      
+          // Enable drag-and-drop for icons in the left sidebar
+          $('.draggable').draggable({
+            helper: 'clone', // Use a clone while dragging
+            revert: 'invalid', // Revert if dropped on an invalid drop target
+            appendTo: 'body', // Append to the body to avoid z-index issues
+            zIndex: 1000 // Set a high z-index to ensure visibility
+          });
+      
+          // Enable drop on the canvas
+          $('#canvas').droppable({
+            drop: function(event, ui) {
+              var icon = ui.helper.clone(); // Clone the dragged icon
+              var x = ui.offset.left - $(this).offset().left;
+              var y = ui.offset.top - $(this).offset().top + $(window).scrollTop(); // Account for scroll position
+      
+              // Position the icon within the canvas container
+              icon.css({ top: y, left: x, position: 'absolute' });
+      
+              // Append the icon to the canvas container
+              $('#canvas-container').append(icon);
+      
+              // Make the icon draggable within the canvas container
+              icon.draggable({
+                containment: '#canvas-container', // Contain within the canvas container
+                scroll: false // Disable scrolling while dragging
+              });
+            }
+          });
+      
+    // Enable repositioning of icons within the canvas
+$(document).on('mousedown', '.icon', function(event) {
+  var icon = $(this);
+  var canvasContainer = $('#canvas-container');
+  var canvas = $('#canvas');
+
+  // Calculate the offset of the mouse pointer relative to the icon's position within the icon element
+  var offsetX = event.offsetX || event.clientX - $(event.target).offset().left;
+  var offsetY = event.offsetY || event.clientY - $(event.target).offset().top;
+
+  // Enable dragging of the icon within the canvas
+  $(document).on('mousemove', function(event) {
+    // Calculate the position of the icon based on the mouse position relative to the canvas
+    var x = event.pageX - canvas.offset().left - offsetX;
+    var y = event.pageY - canvas.offset().top - offsetY;
+
+    // Ensure the icon stays within the canvas boundaries
+    x = Math.min(Math.max(x, 0), canvas.width() - icon.width());
+    y = Math.min(Math.max(y, 0), canvas.height() - icon.height());
+
+    // Update the icon's position
+    icon.css({ left: x, top: y });
+  });
+
+  // Stop dragging when the mouse button is released
+  $(document).on('mouseup', function() {
+    $(document).off('mousemove');
+    $(document).off('mouseup');
+  });
+});
+
+        });
+      </script>
+    
+  </body>
+</html>

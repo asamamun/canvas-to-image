@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas Image Editor</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    #canvas-container {
+      position: relative;
+    }
+    #canvas, #template {
+      position: relative;
+      top: 0;
+      left: 0;
+    }
+    .icon {
+      cursor: pointer;
+      position: absolute;
+      z-index: 1; /* Ensure icons are above the canvas */
+    }
+  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Add jQuery UI -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+  
+</head>
+<body>
+    <div class="container">
+        <img id="template" src="assets/templates/template2.jpg" alt="Template">
+        <div class="row">
+            <div class="col-12">                
+                    <!-- Image Icons -->
+    <img class="icon draggable" src="assets/icons/birthday/birthday-cake.png" alt="Icon 1">
+    <img class="icon draggable" src="assets/icons/birthday/birthday.png" alt="Icon 2">
+    <img class="icon draggable" src="assets/icons/birthday/cupcake.png" alt="Icon 2">
+    <!-- Add more icons as needed -->                            
+            </div>
+        </div>
+        <div class="row">
+            
+            <div class="col-12">
+                <div id="canvas-container">                    
+                    <canvas id="canvas"></canvas>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+  
+
+<hr>
+<button id="save-btn" class="btn btn-outline-info">Save</button>
+  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+  <script src="assets/js/jquery-3.7.1.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Set canvas dimensions
+      var canvas = document.getElementById('canvas');
+      var ctx = canvas.getContext('2d');
+      canvas.width = $('#template').width();
+      canvas.height = $('#template').height();
+      
+      // Draw template image onto canvas
+      var template = document.getElementById('template');
+      ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
+
+      // Enable drag-and-drop for icons
+      $('.draggable').draggable({
+        containment: '#canvas-container',
+        scroll: false,
+        stop: function(event, ui) {
+          var x = ui.position.left;
+          var y = ui.position.top;
+          var icon = ui.helper[0];
+          ctx.drawImage(icon, x, y);
+        }
+      });
+
+// Function to save canvas as image
+function saveCanvas() {
+  var tempCanvas = document.createElement('canvas');
+  tempCanvas.width = canvas.width;
+  tempCanvas.height = canvas.height;
+  var tempCtx = tempCanvas.getContext('2d');
+
+  // Draw template image onto temporary canvas
+  tempCtx.drawImage(template, 0, 0, canvas.width, canvas.height);
+
+  // Draw each icon onto temporary canvas
+  $('.draggable').each(function() {
+    var icon = this;
+    var rect = icon.getBoundingClientRect();
+    var x = rect.left - canvas.getBoundingClientRect().left;
+    var y = rect.top - canvas.getBoundingClientRect().top;
+    tempCtx.drawImage(icon, x, y);
+  });
+
+  // Convert temporary canvas to data URL and save
+  var image = tempCanvas.toDataURL(); // Convert canvas to data URL
+  var link = document.createElement('a');
+  link.href = image;
+  link.download = 'canvas_image.png';
+  link.click();
+}
+
+      // Example of how to save the canvas when a button is clicked
+      $('#save-btn').on('click', function() {
+        saveCanvas();
+      });
+    });
+  </script>
+</body>
+</html>
