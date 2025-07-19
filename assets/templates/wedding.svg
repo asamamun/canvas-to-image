@@ -1,0 +1,13 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="weddingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8bbd9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e1bee7;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#weddingGrad)"/>
+  <path d="M100 100 Q150 50 200 100 Q250 50 300 100" stroke="#880e4f" stroke-width="3" fill="none" opacity="0.4"/>
+  <path d="M500 500 Q550 450 600 500 Q650 450 700 500" stroke="#880e4f" stroke-width="3" fill="none" opacity="0.4"/>
+  <circle cx="400" cy="300" r="80" fill="none" stroke="#ad1457" stroke-width="2" opacity="0.3"/>
+  <text x="400" y="320" text-anchor="middle" font-family="Georgia" font-size="36" fill="#880e4f" font-weight="bold">Congratulations!</text>
+</svg>

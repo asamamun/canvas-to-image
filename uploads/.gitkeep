@@ -1,0 +1,1 @@
+# This file keeps the uploads directory in git

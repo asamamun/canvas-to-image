@@ -1,0 +1,15 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="inviteGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#74b9ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0984e3;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#inviteGrad1)"/>
+  <rect x="100" y="100" width="600" height="400" fill="rgba(255,255,255,0.9)" stroke="#2d3436" stroke-width="2" rx="10"/>
+  <text x="400" y="200" text-anchor="middle" font-family="Arial" font-size="32" fill="#2d3436" font-weight="bold">You're Invited!</text>
+  <text x="400" y="280" text-anchor="middle" font-family="Arial" font-size="20" fill="#636e72">Join us for a special celebration</text>
+  <text x="400" y="350" text-anchor="middle" font-family="Arial" font-size="18" fill="#636e72">Date: ___________</text>
+  <text x="400" y="380" text-anchor="middle" font-family="Arial" font-size="18" fill="#636e72">Time: ___________</text>
+  <text x="400" y="410" text-anchor="middle" font-family="Arial" font-size="18" fill="#636e72">Location: ___________</text>
+</svg>
